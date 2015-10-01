@@ -1,4 +1,4 @@
-OpenSSL-Pod
+OpenSSL-OSX-Pod
 ===========
 
 

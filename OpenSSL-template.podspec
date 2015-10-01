@@ -1,28 +1,32 @@
 Pod::Spec.new do |s|
-  s.name            = "OpenSSL"
-  s.version         = "1.0.109"
-  s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in Mac OS and gone in iOS, this spec gives your project non-deprecated OpenSSL support."
+  s.platform		= :osx, "10.7"
+  s.name            = "OpenSSL-OSX"
+  s.version         = "1.0.204.1"
+  s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in Mac OS and gone in 10.11 (headers), this spec gives your project non-deprecated OpenSSL support for OSX projects."
   s.author          = "OpenSSL Project <openssl-dev@openssl.org>"
 
-  s.homepage        = "https://github.com/FredericJacobs/OpenSSL-Pod"
+  s.homepage        = "https://github.com/GerTeunis/OpenSSL-OSX-Pod"
   s.license         = 'BSD-style Open Source'
-  s.source          = { :http => "https://www.openssl.org/source/openssl-1.0.1i.tar.gz", :sha1 => "74eed314fa2c93006df8d26cd9fc630a101abd76"}
+  s.source          = { :http => "https://openssl.org/source/openssl-1.0.2d.tar.gz", :sha1 => "d01d17b44663e8ffa6a33a5a30053779d9593c3d"}
   s.source_files    = "opensslIncludes/openssl/*.h"
   s.header_dir      = "openssl"
   s.license	        = { :type => 'OpenSSL (OpenSSL/SSLeay)', :file => 'LICENSE' }
 
   s.prepare_command = <<-CMD
-    VERSION="1.0.1i"
-    SDKVERSION=`xcrun --sdk iphoneos --show-sdk-version 2> /dev/null`
+    VERSION="1.0.2d"
+    SDKVERSION=`xcrun --sdk macosx --show-sdk-version 2> /dev/null`
+    MIN_SDK_VERSION="10.7"
 
     BASEPATH="${PWD}"
     CURRENTPATH="${TMPDIR}/openssl"
-    ARCHS="i386 x86_64 armv7 armv7s arm64"
+    ARCHS="i386 x86_64"
     DEVELOPER=`xcode-select -print-path`
+    PLATFORM="MacOSX"
 
     mkdir -p "${CURRENTPATH}"
     mkdir -p "${CURRENTPATH}/bin"
 
+    curl "https://openssl.org/source/openssl-1.0.2d.tar.gz" -o file.tgz
     cp "file.tgz" "${CURRENTPATH}/file.tgz"
     cd "${CURRENTPATH}"
     tar -xzf file.tgz
@@ -30,27 +34,21 @@ Pod::Spec.new do |s|
 
     for ARCH in ${ARCHS}
     do
-      CONFIGURE_FOR="iphoneos-cross"
-
-      if [ "${ARCH}" == "i386" ] || [ "${ARCH}" == "x86_64" ] ;
+    
+      if [ "${ARCH}" == "i386" ];
       then
-        PLATFORM="iPhoneSimulator"
-        if [ "${ARCH}" == "x86_64" ] ;
-        then
-          CONFIGURE_FOR="darwin64-x86_64-cc"
-        fi
-      else
-        sed -ie "s!static volatile sig_atomic_t intr_signal;!static volatile intr_signal;!" "crypto/ui/ui_openssl.c"
-        PLATFORM="iPhoneOS"
+          CONFIGURE_FOR="darwin-i386-cc"
+      elif [ "${ARCH}" == "x86_64" ];
+      then
+			CONFIGURE_FOR="darwin64-x86_64-cc"
       fi
-
       export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
       export CROSS_SDK="${PLATFORM}${SDKVERSION}.sdk"
 
       echo "Building openssl-${VERSION} for ${PLATFORM} ${SDKVERSION} ${ARCH}"
       echo "Please stand by..."
 
-      export CC="${DEVELOPER}/usr/bin/gcc -arch ${ARCH} -miphoneos-version-min=${SDKVERSION}"
+      export CC="${DEVELOPER}/usr/bin/gcc -arch ${ARCH} -mmacosx-version-min=${MIN_SDK_VERSION}"
       mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
       LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-openssl-${VERSION}.log"
 
@@ -85,9 +83,8 @@ Pod::Spec.new do |s|
     echo "Done."
   CMD
 
-  s.ios.platform            = :ios
-  s.ios.public_header_files = "opensslIncludes/openssl/*.h"
-  s.ios.vendored_libraries  = "lib/libcrypto.a", "lib/libssl.a"
+  s.public_header_files = "opensslIncludes/openssl/*.h"
+  s.vendored_libraries  = "lib/libcrypto.a", "lib/libssl.a"
 
   s.libraries             = 'crypto', 'ssl'
   s.requires_arc          = false
