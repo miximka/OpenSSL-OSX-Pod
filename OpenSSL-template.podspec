@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
   s.platform		= :osx, "10.7"
   s.name            = "OpenSSL-OSX"
   s.version         = "1.0.204.1"
-  s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in Mac OS and gone in 10.11 (headers), this spec gives your project non-deprecated OpenSSL support for OSX projects."
+  s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in OS X, this CocoaPod will add the latest OpenSSL to your OS X project."
   s.author          = "OpenSSL Project <openssl-dev@openssl.org>"
 
   s.homepage        = "https://github.com/GerTeunis/OpenSSL-OSX-Pod"
