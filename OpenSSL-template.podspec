@@ -1,19 +1,19 @@
 Pod::Spec.new do |s|
   s.platform		= :osx, "10.7"
   s.name            = "OpenSSL-OSX"
-  s.version         = "1.0.204.1"
+  s.version         = "1.0.205"
   s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in OS X, this CocoaPod will add the latest OpenSSL to your OS X project."
   s.author          = "OpenSSL Project <openssl-dev@openssl.org>"
 
   s.homepage        = "https://github.com/GerTeunis/OpenSSL-OSX-Pod"
   s.license         = 'BSD-style Open Source'
-  s.source          = { :http => "https://openssl.org/source/openssl-1.0.2d.tar.gz", :sha1 => "d01d17b44663e8ffa6a33a5a30053779d9593c3d"}
+  s.source          = { :http => "https://openssl.org/source/openssl-1.0.2e.tar.gz", :sha1 => "2c5691496761cb18f98476eefa4d35c835448fb6"}
   s.source_files    = "opensslIncludes/openssl/*.h"
   s.header_dir      = "openssl"
   s.license	        = { :type => 'OpenSSL (OpenSSL/SSLeay)', :file => 'LICENSE' }
 
   s.prepare_command = <<-CMD
-    VERSION="1.0.2d"
+    VERSION="1.0.2e"
     SDKVERSION=`xcrun --sdk macosx --show-sdk-version 2> /dev/null`
     MIN_SDK_VERSION="10.7"
 
@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
     mkdir -p "${CURRENTPATH}"
     mkdir -p "${CURRENTPATH}/bin"
 
-    curl "https://openssl.org/source/openssl-1.0.2d.tar.gz" -o file.tgz
+    curl "https://openssl.org/source/openssl-${VERSION}.tar.gz" -o file.tgz
     cp "file.tgz" "${CURRENTPATH}/file.tgz"
     cd "${CURRENTPATH}"
     tar -xzf file.tgz
