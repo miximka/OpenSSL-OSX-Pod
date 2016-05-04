@@ -1,19 +1,19 @@
 Pod::Spec.new do |s|
   s.platform		= :osx, "10.7"
   s.name            = "OpenSSL-OSX"
-  s.version         = "1.0.207"
+  s.version         = "1.0.208"
   s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in OS X, this CocoaPod will add the latest OpenSSL to your OS X project."
   s.author          = "OpenSSL Project <openssl-dev@openssl.org>"
 
   s.homepage        = "https://github.com/GerTeunis/OpenSSL-OSX-Pod"
   s.license         = 'BSD-style Open Source'
-  s.source          = { :http => "https://openssl.org/source/openssl-1.0.2g.tar.gz", :sha1 => "36af23887402a5ea4ebef91df8e61654906f58f2"}
+  s.source          = { :http => "https://openssl.org/source/openssl-1.0.2h.tar.gz", :sha1 => "577585f5f5d299c44dd3c993d3c0ac7a219e4949"}
   s.source_files    = "opensslIncludes/openssl/*.h"
   s.header_dir      = "openssl"
   s.license	        = { :type => 'OpenSSL (OpenSSL/SSLeay)', :file => 'LICENSE' }
 
   s.prepare_command = <<-CMD
-    VERSION="1.0.2g"
+    VERSION="1.0.2h"
     SDKVERSION=`xcrun --sdk macosx --show-sdk-version 2> /dev/null`
     MIN_SDK_VERSION="10.7"
 
