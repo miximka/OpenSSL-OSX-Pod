@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
     mkdir -p "${CURRENTPATH}"
     mkdir -p "${CURRENTPATH}/bin"
 
-    curl "https://openssl.org/source/openssl-${VERSION}.tar.gz" -o file.tgz
+    curl -L "https://openssl.org/source/openssl-${VERSION}.tar.gz" -o file.tgz
     cp "file.tgz" "${CURRENTPATH}/file.tgz"
     cd "${CURRENTPATH}"
     tar -xzf file.tgz
