@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.platform		= :osx, "10.7"
+  s.platform		= :osx, "10.12"
   s.name            = "OpenSSL-OSX"
   s.version         = "1.0.211"
   s.summary         = "OpenSSL is an SSL/TLS and Crypto toolkit. Deprecated in OS X, this CocoaPod will add the latest OpenSSL to your OS X project."
@@ -15,11 +15,11 @@ Pod::Spec.new do |s|
   s.prepare_command = <<-CMD
     VERSION="1.0.2j"
     SDKVERSION=`xcrun --sdk macosx --show-sdk-version 2> /dev/null`
-    MIN_SDK_VERSION="10.7"
+    MIN_SDK_VERSION="10.12"
 
     BASEPATH="${PWD}"
     CURRENTPATH="${TMPDIR}/openssl"
-    ARCHS="i386 x86_64"
+    ARCHS="x86_64"
     DEVELOPER=`xcode-select -print-path`
     PLATFORM="MacOSX"
 
@@ -34,13 +34,13 @@ Pod::Spec.new do |s|
 
     for ARCH in ${ARCHS}
     do
-    
+
       if [ "${ARCH}" == "i386" ];
       then
           CONFIGURE_FOR="darwin-i386-cc"
       elif [ "${ARCH}" == "x86_64" ];
       then
-			CONFIGURE_FOR="darwin64-x86_64-cc"
+			    CONFIGURE_FOR="darwin64-x86_64-cc"
       fi
       export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
       export CROSS_SDK="${PLATFORM}${SDKVERSION}.sdk"
