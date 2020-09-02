@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
   s.prepare_command = <<-CMD
     VERSION="1.0.2j"
     SDKVERSION=`xcrun --sdk macosx --show-sdk-version 2> /dev/null`
+    SDKPATH=`xcrun --sdk macosx --show-sdk-path 2> /dev/null`
     MIN_SDK_VERSION="10.12"
 
     BASEPATH="${PWD}"
@@ -42,8 +43,6 @@ Pod::Spec.new do |s|
       then
 			    CONFIGURE_FOR="darwin64-x86_64-cc"
       fi
-      export CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"
-      export CROSS_SDK="${PLATFORM}${SDKVERSION}.sdk"
 
       echo "Building openssl-${VERSION} for ${PLATFORM} ${SDKVERSION} ${ARCH}"
       echo "Please stand by..."
@@ -56,7 +55,7 @@ Pod::Spec.new do |s|
       LIPO_LIBCRYPTO="${LIPO_LIBCRYPTO} ${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/lib/libcrypto.a"
 
       ./Configure ${CONFIGURE_FOR} --openssldir="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk" > "${LOG}" 2>&1
-      sed -ie "s!^CFLAG=!CFLAG=-isysroot ${CROSS_TOP}/SDKs/${CROSS_SDK} !" "Makefile"
+      sed -ie "s!^CFLAG=!CFLAG=-isysroot ${SDKPATH} !" "Makefile"
 
       make >> "${LOG}" 2>&1
       make all install_sw >> "${LOG}" 2>&1
